@@ -6,12 +6,10 @@ WriteMakefile(
     NAME                => 'DBIx::Class::Result::ColumnData',
     AUTHOR              => q{Nicolas Oudard <nicolas@oudard.org>},
     VERSION_FROM        => 'lib/DBIx/Class/Result/ColumnData.pm',
-    ABSTRACT_FROM       => 'lib/DBIx/Class/Result/ColumnData.pm',
-    ($ExtUtils::MakeMaker::VERSION >= 6.3002
-      ? ('LICENSE'=> 'perl')
-      : ()),
+    LICENSE             => 'perl',
     PL_FILES            => {},
     PREREQ_PM => {
+        'DBIx::Class'=> 0,
         'Test::More' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },

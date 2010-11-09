@@ -10,7 +10,9 @@ DROP TABLE IF EXISTS cd;
   CREATE TABLE cd (
     cdid INTEGER PRIMARY KEY,
     artistid INTEGER NOT NULL REFERENCES artist(artistid),
-    title TEXT NOT NULL
+    title TEXT NOT NULL,
+    date DATE,
+    last_listen DATETIME
   );
 
 DROP TABLE IF EXISTS track;

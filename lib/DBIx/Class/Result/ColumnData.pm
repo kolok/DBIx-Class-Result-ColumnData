@@ -51,7 +51,22 @@ return only column_data from an object DBIx::Class::Core
 sub columns_data
 {
   my $obj = shift;
-  return $obj->{_column_data};
+  my $rh_data =  $obj->{_column_data};
+  foreach my $key (keys %{$rh_data})
+  {
+    $rh_data->{$key} = $obj->_display_date($key) if (ref($rh_data->{$key}) eq 'DateTime');
+  }
+  return $rh_data;
+}
+
+
+sub _display_date
+{
+  my ($obj, $key) = @_;
+  my $class = ref $obj;
+  return $class->column_info($key)->ymd  if $class->column_info($key)->data_type eq 'date';
+  return $class->column_info($key)->ymd.' '.$class->column_info($key)->hms if $class->column_info($key)->data_type eq 'datetime';
+  return '';
 }
 
 =head2 register_relationships_columns_data
