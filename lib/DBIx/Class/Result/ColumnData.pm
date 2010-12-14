@@ -17,7 +17,7 @@ Version 0.01
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 =head1 SYNOPSIS
@@ -55,6 +55,10 @@ sub columns_data
   foreach my $key (keys %{$rh_data})
   {
     $rh_data->{$key} = $obj->_display_date($key) if (ref($rh_data->{$key}) eq 'DateTime');
+  }
+  if ($obj->isa('DBIx::Class::Result::Validation') && defined($obj->result_errors))
+  {
+    $rh_data->{result_errors} = $obj->result_errors;
   }
   return $rh_data;
 }
