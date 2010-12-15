@@ -10,6 +10,8 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'DBIx::Class'=> 0,
+        'DateTime' => 0.65,
+        'DateTime::Format::SQLite' => 0.11,
         'Test::More' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
