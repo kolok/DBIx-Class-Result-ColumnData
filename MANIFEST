@@ -1,10 +1,9 @@
 Changes
-DBIx-Class-Result-ColumnData-0.02.tar.gz
 ignore.txt
 lib/DBIx/Class/Result/ColumnData.pm
 Makefile.PL
-MANIFEST
-MANIFEST.skip
+MANIFEST			This list of files
+MANIFEST.SKIP
 README
 t/00-load.t
 t/01-columns_data.t

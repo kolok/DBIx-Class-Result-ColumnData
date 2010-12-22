@@ -13,7 +13,7 @@ It defined relationships methods to extract columns data only of relationships
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
