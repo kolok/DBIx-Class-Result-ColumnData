@@ -1,6 +1,5 @@
 
 DROP TABLE IF EXISTS artist;
-
   CREATE TABLE artist (
     artistid INTEGER PRIMARY KEY,
     name TEXT NOT NULL
@@ -21,3 +20,11 @@ DROP TABLE IF EXISTS track;
     cdid INTEGER NOT NULL REFERENCES cd(cdid),
     title TEXT NOT NULL
   );
+
+DROP TABLE IF EXISTS cds_artists;
+  CREATE TABLE cds_artists (
+    cdid INTEGER,
+    artistid INTEGER
+  );
+
+

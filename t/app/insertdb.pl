@@ -34,6 +34,30 @@ $schema->populate('Cd', [
   @cds,
   ]);
 
+my %featuring = (
+  'Thriller' => 'Eminem',
+);
+
+my @cds_artists;
+foreach my $lp (keys %albums) {
+  my $artist = $schema->resultset('Artist')->find({ name => $albums{$lp} });
+  my $cd = $schema->resultset('Cd')->find({ title => $lp });
+  push @cds_artists, [$cd->id, $artist->id];
+}
+
+foreach my $lp (keys %featuring) {
+  my $artist = $schema->resultset('Artist')->find({ name => $featuring{$lp} });
+  my $cd = $schema->resultset('Cd')->find({ title => $lp });
+  push @cds_artists, [$cd->id, $artist->id];
+}
+
+
+$schema->populate('M2MCdsM2MArtist', [
+  [qw/cdid artistid/],
+  @cds_artists,
+  ]);
+
+
 
 my %tracks = (
   'Beat It'         => 'Thriller',
