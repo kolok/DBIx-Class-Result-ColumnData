@@ -1,5 +1,11 @@
 Revision history for DBIx-Class-Result-ColumnData
 
-0.01    Date/time
-        First version, released on an unsuspecting world.
+0.03    2010-12-23, Nicolas Oudard
+        manage columns_data to many to many association with components IntrospectableM2M
+
+0.02    2010-12-01, Nicolas Oudard
+        add tests, add compatibility with component result::Validation
+
+0.01    2010-12-01, Nicolas Oudard
+        First version
 
