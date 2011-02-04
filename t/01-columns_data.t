@@ -2,25 +2,18 @@
 
 use Test::More;
 
+use t::lib::Utils;
+
 use t::app::Main;
 use strict;
 
 use DateTime;
 
-system "sqlite3 t/app/db/example.db < t/app/db/example.sql";
-if ($@)
-{
-  plan skip_all => "sqlite3 is require for these tests : $@";
-  exit;
-}
-else
-{
-  plan tests => 5;
-}
-
-system "perl t/app/insertdb.pl";
+plan tests => 5;
 
 my $schema = t::app::Main->connect('dbi:SQLite:t/app/db/example.db');
+$schema->deploy({ add_drop_table => 1 });
+populate_database($schema);
 
 my @rs = $schema->resultset('Cd')->search({'title' => 'Bad'});
 my $cd = $rs[0];

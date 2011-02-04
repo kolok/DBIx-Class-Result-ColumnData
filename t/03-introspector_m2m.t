@@ -6,25 +6,19 @@ use t::app::Main;
 use strict;
 
 use DateTime;
+use t::lib::Utils;
 
-system "sqlite3 t/app/db/example.db < t/app/db/example.sql";
-if ($@)
-{
-  plan skip_all => "sqlite3 is require for these tests : $@";
-  exit;
-}
 eval "use DBIx::Class::IntrospectableM2M";
 if ($@)
 {
   plan skip_all => "This test is about compatibility with component IntrospectableM2M but you don't install it";
   exit;
 }
-
 plan tests => 3;
 
-system "perl t/app/insertdb.pl";
-
 my $schema = t::app::Main->connect('dbi:SQLite:t/app/db/example.db');
+$schema->deploy({ add_drop_table => 1 });
+populate_database($schema);
 
 my @rs = $schema->resultset('M2MCd')->search({'title' => 'Thriller'});
 my $cd = $rs[0];

@@ -10,8 +10,6 @@ t/01-columns_data.t
 t/02-validation_compatibility.t
 t/03-introspector_m2m.t
 t/app/db/example.db
-t/app/db/example.sql
-t/app/insertdb.pl
 t/app/Main.pm
 t/app/Main/Result/Artist.pm
 t/app/Main/Result/Cd.pm
@@ -21,6 +19,7 @@ t/app/Main/Result/M2MCdsM2MArtist.pm
 t/app/Main/Result/Track.pm
 t/app/Main/Result/ValidCd.pm
 t/boilerplate.t
+t/lib/Utils.pm
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
