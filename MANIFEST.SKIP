@@ -1,4 +1,5 @@
 ~$
+t/example.db
 \.log
 \.svn
 \.git

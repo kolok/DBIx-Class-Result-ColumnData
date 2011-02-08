@@ -1,12 +1,11 @@
 #!/usr/bin/perl -w
 
-use Test::More;
-
-use t::app::Main;
 use strict;
-
-use DateTime;
+use warnings;
+use Test::More;
+use t::app::Main;
 use t::lib::Utils;
+use DateTime;
 
 eval "use DBIx::Class::Result::Validation";
 if ($@)
@@ -16,7 +15,7 @@ if ($@)
 }
 plan tests => 2;
 
-my $schema = t::app::Main->connect('dbi:SQLite:t/app/db/example.db');
+my $schema = t::app::Main->connect('dbi:SQLite:t/example.db');
 $schema->deploy({ add_drop_table => 1 });
 populate_database($schema);
 

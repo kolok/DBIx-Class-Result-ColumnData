@@ -1,17 +1,16 @@
 #!/usr/bin/perl -w
 
-use Test::More;
-
-use t::lib::Utils;
-
-use t::app::Main;
 use strict;
+use warnings;
 
+use Test::More;
+use t::lib::Utils;
+use t::app::Main;
 use DateTime;
 
 plan tests => 5;
 
-my $schema = t::app::Main->connect('dbi:SQLite:t/app/db/example.db');
+my $schema = t::app::Main->connect('dbi:SQLite:t/example.db');
 $schema->deploy({ add_drop_table => 1 });
 populate_database($schema);
 
