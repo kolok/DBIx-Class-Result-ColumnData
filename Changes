@@ -1,5 +1,8 @@
 Revision history for DBIx-Class-Result-ColumnData
 
+0.04    2011-02-09, Nicolas Oudard
+        delete dependencies of sqlite3
+
 0.03    2010-12-23, Nicolas Oudard
         manage columns_data to many to many association with components IntrospectableM2M
 
