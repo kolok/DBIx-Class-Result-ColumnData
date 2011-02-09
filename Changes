@@ -1,5 +1,8 @@
 Revision history for DBIx-Class-Result-ColumnData
 
+0.05    2011-02-09, Nicolas Oudard
+        Update Changes
+
 0.04    2011-02-09, Nicolas Oudard
         delete dependencies of sqlite3
 
