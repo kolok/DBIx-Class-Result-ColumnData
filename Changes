@@ -1,5 +1,8 @@
 Revision history for DBIx-Class-Result-ColumnData
 
+0.06    2011-02-10, Nicolas Oudard
+        Correct bug of date formating
+
 0.05    2011-02-09, Nicolas Oudard
         Update Changes
 

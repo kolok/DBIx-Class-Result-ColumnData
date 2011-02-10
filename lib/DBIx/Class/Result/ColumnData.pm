@@ -13,11 +13,11 @@ It defined relationships methods to extract columns data only of relationships
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 
 =head1 SYNOPSIS
@@ -68,8 +68,8 @@ sub _display_date
 {
   my ($obj, $key) = @_;
   my $class = ref $obj;
-  return $class->column_info($key)->ymd  if $class->column_info($key)->data_type eq 'date';
-  return $class->column_info($key)->ymd.' '.$class->column_info($key)->hms if $class->column_info($key)->data_type eq 'datetime';
+  return $obj->$key->ymd  if $class->column_info($key)->{data_type} eq 'date';
+  return $obj->$key->ymd.' '.$obj->$key->hms if $class->column_info($key)->{data_type} eq 'datetime';
   return '';
 }
 

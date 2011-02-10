@@ -9,7 +9,7 @@ WriteMakefile(
     LICENSE             => 'perl',
     PL_FILES            => {},
     PREREQ_PM => {
-        'DBIx::Class'=> 0,
+        'DBIx::Class'=> 0.08127,
         'DateTime' => 0.65,
         'DateTime::Format::SQLite' => 0.11,
         'Test::More' => 0,
