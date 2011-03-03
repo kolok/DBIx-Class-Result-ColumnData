@@ -1,5 +1,9 @@
 Revision history for DBIx-Class-Result-ColumnData
 
+0.07    2011-03-03, Nicolas Oudard
+        Makefile to Build
+        Update dependencies
+
 0.06    2011-02-10, Nicolas Oudard
         Correct bug of date formating
 
