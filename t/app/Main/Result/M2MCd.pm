@@ -18,5 +18,5 @@ __PACKAGE__->has_many('m2mcds_m2martists' => 't::app::Main::Result::M2MCdsM2MArt
 __PACKAGE__->many_to_many('m2martists' => 'm2mcds_m2martists', 'm2martist');
 
 __PACKAGE__->load_components(qw/ Result::ColumnData /);
-__PACKAGE__->register_relationships_columns_data();
+__PACKAGE__->register_relationships_column_data();
 1;

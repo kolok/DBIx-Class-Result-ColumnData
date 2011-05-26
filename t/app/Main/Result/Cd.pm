@@ -18,5 +18,5 @@ __PACKAGE__->belongs_to('artist' => 't::app::Main::Result::Artist', 'artistid');
 __PACKAGE__->has_many('tracks' => 't::app::Main::Result::Track', 'cdid');
 
 __PACKAGE__->load_components(qw/ Result::ColumnData /);
-__PACKAGE__->register_relationships_columns_data();
+__PACKAGE__->register_relationships_column_data();
 1;

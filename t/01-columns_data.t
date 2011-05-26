@@ -17,16 +17,16 @@ populate_database($schema);
 my @rs = $schema->resultset('Cd')->search({'title' => 'Bad'});
 my $cd = $rs[0];
 my $rh_result = {'artistid' => $cd->artistid(),'cdid' => $cd->cdid(),'title' => $cd->title, 'date' => undef, 'last_listen' => undef};
-is_deeply( $cd->columns_data, $rh_result, "columns_data return all column value of object");
+is_deeply( $cd->get_column_data, $rh_result, "column_data return all column value of object");
 
 my $artist = $cd->artist;
-is_deeply($cd->artist_columns_data,$artist->columns_data, "artist_columns_data return column data of artist");
+is_deeply($cd->artist_column_data,$artist->get_column_data, "artist_column_data return column data of artist");
 
-my @tracks = $cd->tracks_columns_data;
+my @tracks = $cd->tracks_column_data;
 is(scalar(@tracks), 3, "3 tracks for cd `Bad'");
 my @track = $schema->resultset('Track')->search({title => $tracks[0]->{'title'}});
 
-is_deeply($track[0]->columns_data(), $tracks[0], "tracks_columns data return tracks on columns data form");
+is_deeply($track[0]->get_column_data(), $tracks[0], "tracks_column data return tracks on column data form");
 
 # date and datetime format
 my $date  = DateTime->now();
@@ -35,6 +35,6 @@ $cd->last_listen($date);
 my $format_date = $cd->date->ymd;
 my $format_last_listen = $cd->last_listen->ymd.' '.$cd->last_listen->hms;
 my $rh_result_date = {'artistid' => $cd->artistid(),'cdid' => $cd->cdid(),'title' => $cd->title, 'date' => $format_date, 'last_listen' => $format_last_listen};
-is_deeply( $cd->columns_data, $rh_result_date, "columns_data return all column value of object with format date");
+is_deeply( $cd->get_column_data, $rh_result_date, "column_data return all column value of object with format date");
 
 
