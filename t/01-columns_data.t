@@ -8,7 +8,7 @@ use t::lib::Utils;
 use t::app::Main;
 use DateTime;
 
-plan tests => 5;
+plan tests => 8;
 
 my $schema = t::app::Main->connect('dbi:SQLite:t/example.db');
 $schema->deploy({ add_drop_table => 1 });
@@ -19,14 +19,23 @@ my $cd = $rs[0];
 my $rh_result = {'artistid' => $cd->artistid(),'cdid' => $cd->cdid(),'title' => $cd->title, 'date' => undef, 'last_listen' => undef};
 is_deeply( $cd->get_column_data, $rh_result, "column_data return all column value of object");
 
+# test retro-compatibility
+is_deeply( $cd->get_column_data, $cd->columns_data, "columns_data is deprecated but run");
+
 my $artist = $cd->artist;
 is_deeply($cd->artist_column_data,$artist->get_column_data, "artist_column_data return column data of artist");
+
+# test retro-compatibility
+is_deeply( $cd->artist_column_data, $cd->artist_columns_data, "artist_column_data is deprecated but run");
 
 my @tracks = $cd->tracks_column_data;
 is(scalar(@tracks), 3, "3 tracks for cd `Bad'");
 my @track = $schema->resultset('Track')->search({title => $tracks[0]->{'title'}});
 
 is_deeply($track[0]->get_column_data(), $tracks[0], "tracks_column data return tracks on column data form");
+
+# test retro-compatibility
+is_deeply(  [$cd->tracks_column_data],  [$cd->tracks_columns_data], "artist_column_data is deprecated but run");
 
 # date and datetime format
 my $date  = DateTime->now();

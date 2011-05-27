@@ -135,6 +135,17 @@ sub register_relationships_column_data {
         no strict 'refs';
         *{"${class}::${method_name}"} = $method_code;
       }
+      my $old_method_name = $relation.'_columns_data';
+      my $old_method_code = sub {
+          carp "$old_method_name is decrecated, use $method_name";
+          my $class = shift;
+
+          return $class->$method_name(@_);
+      };
+      {
+        no strict 'refs';
+        *{"${class}::${old_method_name}"} = $old_method_code;
+      }
     }
      if ($relation_type eq 'multi')
     {
@@ -154,6 +165,18 @@ sub register_relationships_column_data {
         no strict 'refs';
         *{"${class}::${method_name}"} = $method_code;
       }
+      my $old_method_name = $relation.'_columns_data';
+      my $old_method_code = sub {
+          carp "$old_method_name is decrecated, use $method_name";
+          my $class = shift;
+
+          return $class->$method_name(@_);
+      };
+      {
+        no strict 'refs';
+        *{"${class}::${old_method_name}"} = $old_method_code;
+      }
+
     }
   }
   if ($class->isa('DBIx::Class::IntrospectableM2M'))
@@ -177,6 +200,18 @@ sub register_relationships_column_data {
         no strict 'refs';
         *{"${class}::${method_name}"} = $method_code;
       }
+      my $old_method_name = $relation.'_columns_data';
+      my $old_method_code = sub {
+          carp "$old_method_name is decrecated, use $method_name";
+          my $class = shift;
+
+          return $class->$method_name(@_);
+      };
+      {
+        no strict 'refs';
+        *{"${class}::${old_method_name}"} = $old_method_code;
+      }
+
     }
   }
 }
