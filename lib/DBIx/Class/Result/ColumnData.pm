@@ -2,6 +2,7 @@ package DBIx::Class::Result::ColumnData;
 
 use warnings;
 use strict;
+use Carp;
 
 =head1 NAME
 
@@ -13,11 +14,11 @@ It defined relationships methods to extract columns data only of relationships
 
 =head1 VERSION
 
-Version 0.08
+Version 0.09
 
 =cut
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 
 =head1 SYNOPSIS
@@ -47,6 +48,14 @@ you will use get_column_data functions on instance of MyClass
 return only column_data from an object DBIx::Class::Core
 
 =cut
+
+sub columns_data
+{
+    carp "columns_data is decrecated, use get_column_data";
+    my $obj = shift;
+
+    $obj->get_column_data(@_);
+}
 
 sub get_column_data
 {
@@ -97,6 +106,14 @@ register_relationships_column_data generate instance functions for Keyboard obje
     #    { id => 1, os => 'ubuntu' };
 
 =cut
+
+sub register_relationships_columns_data
+{
+    carp "register_relationships_columns_data is decrecated, use register_relationships_column_data";
+    my $class = shift;
+
+    $class->register_relationships_column_data(@_);
+}
 
 
 sub register_relationships_column_data {
