@@ -22,12 +22,12 @@ populate_database($schema);
 my @rs = $schema->resultset('ValidCd')->search({'title' => 'Bad'});
 my $cd = $rs[0];
 my $rh_result = {'artistid' => $cd->artistid(),'cdid' => $cd->cdid(),'title' => $cd->title, 'date' => undef, 'last_listen' => undef};
-is_deeply( $cd->columns_data, $rh_result, "columns_data return all column value of object");
+is_deeply( $cd->get_column_data, $rh_result, "column_data return all column value of object");
 
 $cd->add_result_error("key 1", "comment 1 to key 1");
 $cd->add_result_error("key 1", "comment 2 to key 1");
 $cd->add_result_error("key 2", "comment 1 to key 2");
 $rh_result->{'result_errors'} = {'key 1' => ["comment 1 to key 1","comment 2 to key 1"],'key 2' => ["comment 1 to key 2"]};
-is_deeply( $cd->columns_data, $rh_result, "columns_data return all column value of object with result_errors column");
+is_deeply( $cd->get_column_data, $rh_result, "column_data return all column value of object with result_errors column");
 
 

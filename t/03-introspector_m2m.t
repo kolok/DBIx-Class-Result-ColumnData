@@ -22,14 +22,14 @@ populate_database($schema);
 my @rs = $schema->resultset('M2MCd')->search({'title' => 'Thriller'});
 my $cd = $rs[0];
 my $rh_result = {'artistid' => $cd->artistid(),'cdid' => $cd->cdid(),'title' => $cd->title, 'date' => undef, 'last_listen' => undef};
-is_deeply( $cd->columns_data, $rh_result, "columns_data return all column value of object");
+is_deeply( $cd->get_column_data, $rh_result, "column_data return all column value of object");
 
 use Data::Dumper 'Dumper';
 
-my @artists = $cd->m2martists_columns_data;
+my @artists = $cd->m2martists_column_data;
 my $artist = $artists[0];
 my $art = $schema->resultset('M2MArtist')->find($artist->{artistid});
 
 is(scalar(@artists),2, "2 artists for 1 cd");
-is_deeply( $art->columns_data, $artist, "_columns_data work for many to many association with IntrospectableM2M");
+is_deeply( $art->get_column_data, $artist, "_column_data work for many to many association with IntrospectableM2M");
 
