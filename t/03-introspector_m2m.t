@@ -32,5 +32,5 @@ is(scalar(@artists),2, "2 artists for 1 cd");
 is_deeply( $art->get_column_data, $artist, "_column_data work for many to many association with IntrospectableM2M");
 
 # test retro compatibility
-is_deeply( [$cd->m2martists_column_data], [$cd->m2martists_column_data], "m2martists_column_data is deprecated but work");
+is_deeply( [$cd->m2martists_column_data], [$cd->m2martists_columns_data], "m2martists_column_data is deprecated but work");
 
