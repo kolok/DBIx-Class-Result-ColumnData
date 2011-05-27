@@ -31,24 +31,24 @@ in your DBIx::Class::Core base class declare Result::ColumnData component
 
     __PACKAGE__->load_component(qw/ ... Result::DataColumn /);
 
-    #Declare here associations before register_relationships_columns_data
+    #Declare here associations before register_relationships_column_data
     __PACKAGE__->belongs_to(...);
     __PACKAGE__->has_many(...);
 
-    __PACKAGE__->register_relationships_columns_data();
+    __PACKAGE__->register_relationships_column_data();
 
-you will use columns_data functions on instance of MyClass
+you will use get_column_data functions on instance of MyClass
 
-    $my_class->columns_data
-    $my_class->I<relationships>_columns_data
+    $my_class->get_column_data
+    $my_class->I<relationships>_column_data
 
-=head2 columns_data
+=head2 get_column_data
 
 return only column_data from an object DBIx::Class::Core
 
 =cut
 
-sub columns_data
+sub get_column_data
 {
   my $obj = shift;
   my $rh_data =  $obj->{_column_data};
@@ -73,16 +73,16 @@ sub _display_date
   return '';
 }
 
-=head2 register_relationships_columns_data
+=head2 register_relationships_column_data
 
-declare functions for each relationship on canva : I<relationship>_columns_data which return a hash columns data for a single relationship and an list of hash columns data for multi relationships
+declare functions for each relationship on canva : I<relationship>_column_data which return a hash columns data for a single relationship and an list of hash columns data for multi relationships
 
     Package::Schema::Result::Keyboard->belongs_to( computer => "Package::Schema::Result::Computer", computer_id);
     Package::Schema::Result::Keyboard->has_many( keys => "Package::Schema::Result::Key", keyboard_id);
 
-register_relationships_columns_data generate instance functions for Keyboard object
+register_relationships_column_data generate instance functions for Keyboard object
 
-    $keybord->keys_columns_data()
+    $keybord->keys_column_data()
 
     # return 
     #     [
@@ -91,7 +91,7 @@ register_relationships_columns_data generate instance functions for Keyboard obj
     #       ....
     #     ];
 
-    $keybord->cumputer_columns_data()
+    $keybord->cumputer_column_data()
 
     # return 
     #    { id => 1, os => 'ubuntu' };
@@ -99,19 +99,19 @@ register_relationships_columns_data generate instance functions for Keyboard obj
 =cut
 
 
-sub register_relationships_columns_data {
+sub register_relationships_column_data {
   my ($class) = @_;
   foreach my $relation ($class->relationships())
   {
     my $relation_type = $class->relationship_info($relation)->{attrs}->{accessor};
     if ($relation_type eq 'single')
     {
-      my $method_name = $relation.'_columns_data';
+      my $method_name = $relation.'_column_data';
       my $method_code = sub {
 
         my $self = shift;
         my $relobject = $self->$relation;
-        return $relobject->columns_data() if defined $relobject;
+        return $relobject->get_column_data() if defined $relobject;
         return undef;
       };
       {
@@ -121,17 +121,17 @@ sub register_relationships_columns_data {
     }
      if ($relation_type eq 'multi')
     {
-      my $method_name = $relation.'_columns_data';
+      my $method_name = $relation.'_column_data';
       my $method_code = sub {
 
         my $self = shift;
         my @relobjects = $self->$relation;
-        my @relobjects_columns_data = ();
+        my @relobjects_column_data = ();
         foreach my $relobject (@relobjects)
         {
-          push @relobjects_columns_data, $relobject->columns_data();
+          push @relobjects_column_data, $relobject->get_column_data();
         }
-        return @relobjects_columns_data;
+        return @relobjects_column_data;
       };
       {
         no strict 'refs';
@@ -144,17 +144,17 @@ sub register_relationships_columns_data {
     foreach my $m2m_rel (keys(%{$class->_m2m_metadata}))
     {
       my $relation = $class->_m2m_metadata->{$m2m_rel}->{accessor};
-      my $method_name = $relation.'_columns_data';
+      my $method_name = $relation.'_column_data';
       my $method_code = sub {
 
         my $self = shift;
         my @relobjects = $self->$relation;
-        my @relobjects_columns_data = ();
+        my @relobjects_column_data = ();
         foreach my $relobject (@relobjects)
         {
-          push @relobjects_columns_data, $relobject->columns_data();
+          push @relobjects_column_data, $relobject->get_column_data();
         }
-        return @relobjects_columns_data;
+        return @relobjects_column_data;
       };
       {
         no strict 'refs';

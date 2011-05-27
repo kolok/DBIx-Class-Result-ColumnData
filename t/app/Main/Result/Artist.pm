@@ -14,5 +14,5 @@ __PACKAGE__->set_primary_key('artistid');
 __PACKAGE__->has_many('cds' => 't::app::Main::Result::Cd', 'artistid');
 
 __PACKAGE__->load_components(qw/ Result::ColumnData /);
-__PACKAGE__->register_relationships_columns_data();
+__PACKAGE__->register_relationships_column_data();
 1;

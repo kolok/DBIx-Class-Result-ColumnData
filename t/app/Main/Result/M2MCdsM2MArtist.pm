@@ -11,5 +11,5 @@ __PACKAGE__->belongs_to('m2martist' => 't::app::Main::Result::M2MArtist', 'artis
 __PACKAGE__->belongs_to('m2mcd' => 't::app::Main::Result::M2MCd', 'cdid');
 
 __PACKAGE__->load_components(qw/ Result::ColumnData /);
-__PACKAGE__->register_relationships_columns_data();
+__PACKAGE__->register_relationships_column_data();
 1;
