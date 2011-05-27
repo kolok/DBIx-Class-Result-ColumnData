@@ -2,6 +2,7 @@ package DBIx::Class::Result::ColumnData;
 
 use warnings;
 use strict;
+use Data::Dumper;
 
 =head1 NAME
 
@@ -52,6 +53,24 @@ sub get_column_data
 {
   my $obj = shift;
   my $rh_data =  $obj->{_column_data};
+  my $columns = $obj->{_result_source}->{_columns};
+  foreach my $key (keys %{$rh_data})
+  {
+    $rh_data->{$key} = $obj->_display_date($key) if (ref($rh_data->{$key}) eq 'DateTime');
+    delete $rh_data->{$key} if ($columns->{$key} && $columns->{$key}->{'hide_field'});
+  }
+  if ($obj->isa('DBIx::Class::Result::Validation') && defined($obj->result_errors))
+  {
+    $rh_data->{result_errors} = $obj->result_errors;
+  }
+  return $rh_data;
+}
+
+sub get_all_column_data
+{
+  my $obj = shift;
+  my $rh_data =  $obj->{_column_data};
+  my $columns = $obj->{_result_source}->{_columns};
   foreach my $key (keys %{$rh_data})
   {
     $rh_data->{$key} = $obj->_display_date($key) if (ref($rh_data->{$key}) eq 'DateTime');
@@ -62,6 +81,7 @@ sub get_column_data
   }
   return $rh_data;
 }
+
 
 
 sub _display_date
