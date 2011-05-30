@@ -15,8 +15,9 @@ name: DBIx-Class-Result-ColumnData
 provides:
   DBIx::Class::Result::ColumnData:
     file: lib/DBIx/Class/Result/ColumnData.pm
-    version: 0.08
+    version: 0.09
 requires:
+  Carp: 1.17
   DBIx::Class: 0.08127
   DBIx::Class::IntrospectableM2M: 0.001001
   DBIx::Class::Result::Validation: 0.05
@@ -26,4 +27,4 @@ requires:
   Test::More: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.08
+version: 0.09
