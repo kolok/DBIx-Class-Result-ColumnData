@@ -3,15 +3,32 @@ use base qw/DBIx::Class::Core/;
 __PACKAGE__->load_components(qw/InflateColumn::DateTime/);
 __PACKAGE__->table('cd');
 __PACKAGE__->add_columns('cdid',
-                         { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+                         { 
+                           data_type => "integer", 
+                           is_auto_increment => 1, 
+                           is_nullable => 0 
+                         },
                          'artistid',
-                         {data_type => 'integer', is_nullable => 0},
+                         {
+                           data_type => 'integer', 
+                           is_nullable => 0
+                         },
                          'title',
-                         {data_type => 'varchar', is_nullable => 0},
+                         {
+                           data_type => 'varchar', 
+                           is_nullable => 0,
+                           hide_field => 1
+                         },
                          'date',
-                         {data_type => 'date', is_nullable => 1},
+                         {
+                           data_type => 'date', 
+                           is_nullable => 1,
+                         },
                          'last_listen',
-                         {data_type => 'datetime', is_nullable => 1},
+                         {
+                           data_type => 'datetime', 
+                           is_nullable => 1
+                         },
                        );
 __PACKAGE__->set_primary_key('cdid');
 __PACKAGE__->belongs_to('artist' => 't::app::Main::Result::Artist', 'artistid');

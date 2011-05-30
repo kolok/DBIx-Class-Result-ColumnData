@@ -65,8 +65,40 @@ return only column_data from an object DBIx::Class::Core
 
 sub get_column_data
 {
+  my ($obj, $options) = @_;
+  my $rh_data;
+  my $class = ref $obj;
+#  my $columns = $obj->{_result_source}->{_columns};
+  foreach my $key (keys %{$obj->{_column_data}})
+  {
+    unless ($options->{with_all_fields})
+    {
+      next if ($class->column_info($key)->{hide_field});
+    }
+    if (ref($obj->{_column_data}->{$key}) eq 'DateTime')
+    {
+      $rh_data->{$key} = $obj->_display_date($key) ;
+    }
+    else
+    {
+      $rh_data->{$key} = $obj->{_column_data}->{$key};
+    }
+  }
+  if ($obj->isa('DBIx::Class::Result::Validation') && defined($obj->result_errors))
+  {
+    $rh_data->{result_errors} = $obj->result_errors;
+  }
+  return $rh_data;
+}
+
+sub get_all_column_data
+{
   my $obj = shift;
+  my $options = {with_all_fields => 1};
+  return $obj->get_column_data($options);
+=pod
   my $rh_data =  $obj->{_column_data};
+  my $columns = $obj->{_result_source}->{_columns};
   foreach my $key (keys %{$rh_data})
   {
     $rh_data->{$key} = $obj->_display_date($key) if (ref($rh_data->{$key}) eq 'DateTime');
@@ -76,7 +108,10 @@ sub get_column_data
     $rh_data->{result_errors} = $obj->result_errors;
   }
   return $rh_data;
+=cut
+
 }
+
 
 
 sub _display_date

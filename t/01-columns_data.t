@@ -7,8 +7,9 @@ use Test::More;
 use t::lib::Utils;
 use t::app::Main;
 use DateTime;
+use Data::Dumper;
 
-plan tests => 8;
+plan tests => 9;
 
 my $schema = t::app::Main->connect('dbi:SQLite:t/example.db');
 $schema->deploy({ add_drop_table => 1 });
@@ -17,7 +18,7 @@ populate_database($schema);
 my @rs = $schema->resultset('Cd')->search({'title' => 'Bad'});
 my $cd = $rs[0];
 my $rh_result = {'artistid' => $cd->artistid(),'cdid' => $cd->cdid(),'title' => $cd->title, 'date' => undef, 'last_listen' => undef};
-is_deeply( $cd->get_column_data, $rh_result, "column_data return all column value of object");
+is_deeply( $cd->get_all_column_data, $rh_result, "column_data return all column value of object, title is not hided");
 
 # test retro-compatibility
 is_deeply( $cd->get_column_data, $cd->columns_data, "columns_data is deprecated but run");
@@ -43,7 +44,11 @@ $cd->date($date);
 $cd->last_listen($date);
 my $format_date = $cd->date->ymd;
 my $format_last_listen = $cd->last_listen->ymd.' '.$cd->last_listen->hms;
-my $rh_result_date = {'artistid' => $cd->artistid(),'cdid' => $cd->cdid(),'title' => $cd->title, 'date' => $format_date, 'last_listen' => $format_last_listen};
-is_deeply( $cd->get_column_data, $rh_result_date, "column_data return all column value of object with format date");
+my $rh_result_date_with_title = {'artistid' => $cd->artistid(),'cdid' => $cd->cdid(),'title' => $cd->title, 'date' => $format_date, 'last_listen' => $format_last_listen};
+is_deeply( $cd->get_all_column_data, $rh_result_date_with_title, "column_data return all column value of object with format date and title is not hided");
+
+#use get_column_data with hide field
+my $rh_result_date = {'artistid' => $cd->artistid(),'cdid' => $cd->cdid(), 'date' => $format_date, 'last_listen' => $format_last_listen};
+is_deeply( $cd->get_column_data, $rh_result_date, "column_data return all column value of object with format date and title is hided");
 
 
