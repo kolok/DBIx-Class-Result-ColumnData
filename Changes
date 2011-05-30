@@ -1,5 +1,8 @@
 Revision history for DBIx-Class-Result-ColumnData
 
+0.11    2011-03-14, Nicolas Oudard
+        Integrate hide field notion
+
 0.10    2011-03-14, Nicolas Oudard
         Add comment to pod coverage tests
 
