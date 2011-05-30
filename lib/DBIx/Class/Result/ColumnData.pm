@@ -43,9 +43,9 @@ you will use get_column_data functions on instance of MyClass
     $my_class->get_column_data
     $my_class->I<relationships>_column_data
 
-=head2 get_column_data
+=head2 columns_data
 
-return only column_data from an object DBIx::Class::Core
+columns_data is decrecated, use get_column_data
 
 =cut
 
@@ -56,6 +56,12 @@ sub columns_data
 
     $obj->get_column_data(@_);
 }
+
+=head2 get_column_data
+
+return only column_data from an object DBIx::Class::Core
+
+=cut
 
 sub get_column_data
 {
@@ -82,6 +88,20 @@ sub _display_date
   return '';
 }
 
+=head2 register_relationships_columns_data
+
+register_relationships_columns_data is decrecated, use register_relationships_column_data
+
+=cut
+
+sub register_relationships_columns_data
+{
+    carp "register_relationships_columns_data is decrecated, use register_relationships_column_data";
+    my $class = shift;
+
+    $class->register_relationships_column_data(@_);
+}
+
 =head2 register_relationships_column_data
 
 declare functions for each relationship on canva : I<relationship>_column_data which return a hash columns data for a single relationship and an list of hash columns data for multi relationships
@@ -106,15 +126,6 @@ register_relationships_column_data generate instance functions for Keyboard obje
     #    { id => 1, os => 'ubuntu' };
 
 =cut
-
-sub register_relationships_columns_data
-{
-    carp "register_relationships_columns_data is decrecated, use register_relationships_column_data";
-    my $class = shift;
-
-    $class->register_relationships_column_data(@_);
-}
-
 
 sub register_relationships_column_data {
   my ($class) = @_;
