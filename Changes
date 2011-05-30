@@ -1,5 +1,12 @@
 Revision history for DBIx-Class-Result-ColumnData
 
+0.10    2011-03-14, Nicolas Oudard
+        Add comment to pod coverage tests
+
+0.09    2011-03-14, Nicolas Oudard
+        Change columns_data to get_column_data
+        Keep deprecated functions
+
 0.08    2011-03-14, Nicolas Oudard
         Update dependencies
 

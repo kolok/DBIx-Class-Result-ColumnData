@@ -5,8 +5,9 @@ author:
 build_requires:
   Test::More: 0
 configure_requires:
-  Module::Build: 0.36
-generated_by: 'Module::Build version 0.3603'
+  Module::Build: 0.38
+dynamic_config: 1
+generated_by: 'Module::Build version 0.38, CPAN::Meta::Converter version 2.110580'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -15,8 +16,9 @@ name: DBIx-Class-Result-ColumnData
 provides:
   DBIx::Class::Result::ColumnData:
     file: lib/DBIx/Class/Result/ColumnData.pm
-    version: 0.08
+    version: 0.10
 requires:
+  Carp: 1.17
   DBIx::Class: 0.08127
   DBIx::Class::IntrospectableM2M: 0.001001
   DBIx::Class::Result::Validation: 0.05
@@ -26,4 +28,4 @@ requires:
   Test::More: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.08
+version: 0.10

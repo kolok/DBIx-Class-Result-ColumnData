@@ -10,6 +10,7 @@ my $build = Module::Build->new (
             'DBIx::Class'=> 0.08127,
             'SQL::Translator' => 0.11007,
             'DateTime' => 0.65,
+            'Carp' => 1.17,
             'DBIx::Class::IntrospectableM2M' => 0.001001,
             'DBIx::Class::Result::Validation' => 0.05,
             'DateTime::Format::SQLite' => 0.11,

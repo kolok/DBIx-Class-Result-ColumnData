@@ -2,7 +2,7 @@ package DBIx::Class::Result::ColumnData;
 
 use warnings;
 use strict;
-use Data::Dumper;
+use Carp;
 
 =head1 NAME
 
@@ -14,11 +14,11 @@ It defined relationships methods to extract columns data only of relationships
 
 =head1 VERSION
 
-Version 0.08
+Version 0.10
 
 =cut
 
-our $VERSION = '0.08';
+our $VERSION = '0.10';
 
 
 =head1 SYNOPSIS
@@ -43,6 +43,20 @@ you will use get_column_data functions on instance of MyClass
     $my_class->get_column_data
     $my_class->I<relationships>_column_data
 
+=head2 columns_data
+
+columns_data is decrecated, use get_column_data
+
+=cut
+
+sub columns_data
+{
+    carp "columns_data is decrecated, use get_column_data";
+    my $obj = shift;
+
+    $obj->get_column_data(@_);
+}
+
 =head2 get_column_data
 
 return only column_data from an object DBIx::Class::Core
@@ -51,13 +65,24 @@ return only column_data from an object DBIx::Class::Core
 
 sub get_column_data
 {
-  my $obj = shift;
-  my $rh_data =  $obj->{_column_data};
-  my $columns = $obj->{_result_source}->{_columns};
-  foreach my $key (keys %{$rh_data})
+  my ($obj, $options) = @_;
+  my $rh_data;
+  my $class = ref $obj;
+#  my $columns = $obj->{_result_source}->{_columns};
+  foreach my $key (keys %{$obj->{_column_data}})
   {
-    $rh_data->{$key} = $obj->_display_date($key) if (ref($rh_data->{$key}) eq 'DateTime');
-    delete $rh_data->{$key} if ($columns->{$key} && $columns->{$key}->{'hide_field'});
+    unless ($options->{with_all_fields})
+    {
+      next if ($class->column_info($key)->{hide_field});
+    }
+    if (ref($obj->{_column_data}->{$key}) eq 'DateTime')
+    {
+      $rh_data->{$key} = $obj->_display_date($key) ;
+    }
+    else
+    {
+      $rh_data->{$key} = $obj->{_column_data}->{$key};
+    }
   }
   if ($obj->isa('DBIx::Class::Result::Validation') && defined($obj->result_errors))
   {
@@ -69,6 +94,9 @@ sub get_column_data
 sub get_all_column_data
 {
   my $obj = shift;
+  my $options = {with_all_fields => 1};
+  return $obj->get_column_data($options);
+=pod
   my $rh_data =  $obj->{_column_data};
   my $columns = $obj->{_result_source}->{_columns};
   foreach my $key (keys %{$rh_data})
@@ -80,6 +108,8 @@ sub get_all_column_data
     $rh_data->{result_errors} = $obj->result_errors;
   }
   return $rh_data;
+=cut
+
 }
 
 
@@ -91,6 +121,20 @@ sub _display_date
   return $obj->$key->ymd  if $class->column_info($key)->{data_type} eq 'date';
   return $obj->$key->ymd.' '.$obj->$key->hms if $class->column_info($key)->{data_type} eq 'datetime';
   return '';
+}
+
+=head2 register_relationships_columns_data
+
+register_relationships_columns_data is decrecated, use register_relationships_column_data
+
+=cut
+
+sub register_relationships_columns_data
+{
+    carp "register_relationships_columns_data is decrecated, use register_relationships_column_data";
+    my $class = shift;
+
+    $class->register_relationships_column_data(@_);
 }
 
 =head2 register_relationships_column_data
@@ -118,7 +162,6 @@ register_relationships_column_data generate instance functions for Keyboard obje
 
 =cut
 
-
 sub register_relationships_column_data {
   my ($class) = @_;
   foreach my $relation ($class->relationships())
@@ -137,6 +180,17 @@ sub register_relationships_column_data {
       {
         no strict 'refs';
         *{"${class}::${method_name}"} = $method_code;
+      }
+      my $old_method_name = $relation.'_columns_data';
+      my $old_method_code = sub {
+          carp "$old_method_name is decrecated, use $method_name";
+          my $class = shift;
+
+          return $class->$method_name(@_);
+      };
+      {
+        no strict 'refs';
+        *{"${class}::${old_method_name}"} = $old_method_code;
       }
     }
      if ($relation_type eq 'multi')
@@ -157,6 +211,18 @@ sub register_relationships_column_data {
         no strict 'refs';
         *{"${class}::${method_name}"} = $method_code;
       }
+      my $old_method_name = $relation.'_columns_data';
+      my $old_method_code = sub {
+          carp "$old_method_name is decrecated, use $method_name";
+          my $class = shift;
+
+          return $class->$method_name(@_);
+      };
+      {
+        no strict 'refs';
+        *{"${class}::${old_method_name}"} = $old_method_code;
+      }
+
     }
   }
   if ($class->isa('DBIx::Class::IntrospectableM2M'))
@@ -180,6 +246,18 @@ sub register_relationships_column_data {
         no strict 'refs';
         *{"${class}::${method_name}"} = $method_code;
       }
+      my $old_method_name = $relation.'_columns_data';
+      my $old_method_code = sub {
+          carp "$old_method_name is decrecated, use $method_name";
+          my $class = shift;
+
+          return $class->$method_name(@_);
+      };
+      {
+        no strict 'refs';
+        *{"${class}::${old_method_name}"} = $old_method_code;
+      }
+
     }
   }
 }
