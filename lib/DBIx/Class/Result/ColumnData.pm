@@ -14,11 +14,11 @@ It defined relationships methods to extract columns data only of relationships
 
 =head1 VERSION
 
-Version 0.11
+Version 0.12
 
 =cut
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 
 =head1 SYNOPSIS
@@ -69,30 +69,43 @@ return only column_data from an object DBIx::Class::Core without hide_field
 
 sub get_column_data
 {
-  my ($obj, $options) = @_;
-  my $rh_data;
-  my $class = ref $obj;
-#  my $columns = $obj->{_result_source}->{_columns};
-  foreach my $key (keys %{$obj->{_column_data}})
-  {
-    unless ($options->{with_all_fields})
+    my ($obj, $options) = @_;
+    my $rh_data;
+    my $class = ref $obj;
+    my @columns = $class->columns;
+    foreach my $key (@columns)
     {
-      next if ($class->column_info($key)->{hide_field});
+        unless ($options->{with_all_fields})
+        {
+            next if ($class->column_info($key)->{hide_field});
+        }
+        if (ref($obj->{_column_data}->{$key}) eq 'DateTime')
+        {
+            $rh_data->{$key} = $obj->_display_date($key) ;
+        }
+        else
+        {
+            $rh_data->{$key} = $obj->{_column_data}->{$key};
+        }
     }
-    if (ref($obj->{_column_data}->{$key}) eq 'DateTime')
+    if ($obj->isa('DBIx::Class::Result::VirtualColumns'))
     {
-      $rh_data->{$key} = $obj->_display_date($key) ;
+        #TODO : tests
+        while (my ($virtual_column, $virtual_column_info) = each %{$class->_virtual_columns} )
+        {
+            if ( ref $virtual_column_info->{set_virtual_column} eq 'CODE')
+            {
+                $virtual_column_info->{set_virtual_column}->($obj);
+            }
+            $rh_data->{$virtual_column} = $obj->$virtual_column;
+        }
     }
-    else
+
+    if ($obj->isa('DBIx::Class::Result::Validation') && defined($obj->result_errors))
     {
-      $rh_data->{$key} = $obj->{_column_data}->{$key};
+        $rh_data->{result_errors} = $obj->result_errors;
     }
-  }
-  if ($obj->isa('DBIx::Class::Result::Validation') && defined($obj->result_errors))
-  {
-    $rh_data->{result_errors} = $obj->result_errors;
-  }
-  return $rh_data;
+    return $rh_data;
 }
 
 =head2 get_all_column_data

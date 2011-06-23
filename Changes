@@ -1,5 +1,8 @@
 Revision history for DBIx-Class-Result-ColumnData
 
+0.11    2011-06-23, Nicolas Oudard
+        Add VirtualColumns compatibility
+
 0.11    2011-03-14, Nicolas Oudard
         Integrate hide field notion
 
