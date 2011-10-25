@@ -1,6 +1,9 @@
 Revision history for DBIx-Class-Result-ColumnData
 
-0.11    2011-06-23, Nicolas Oudard
+0.13    2011-10-25, Nicolas Oudard
+        use get_column insteed of {_column_data}
+
+0.12    2011-06-23, Nicolas Oudard
         Add VirtualColumns compatibility
 
 0.11    2011-03-14, Nicolas Oudard
