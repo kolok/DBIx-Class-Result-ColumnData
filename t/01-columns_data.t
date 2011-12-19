@@ -34,6 +34,13 @@ is(scalar(@tracks), 3, "3 tracks for cd `Bad'");
 my @track = $schema->resultset('Track')->search({title => $tracks[0]->{'title'}});
 
 is_deeply($track[0]->get_column_data(), $tracks[0], "tracks_column data return tracks on column data form");
+my $options;
+$options->{columns} = [ 'cdid','trackid']; #test options->{columns}
+my @track_keys;
+foreach my $key (keys %{$track[0]->get_column_data($options)}){
+  push @track_keys, $key;
+}
+is_deeply (\@track_keys, $options->{columns}, "tracks_column data return only the column we give" );
 
 # test retro-compatibility
 is_deeply(  [$cd->tracks_column_data],  [$cd->tracks_columns_data], "artist_column_data is deprecated but run");
