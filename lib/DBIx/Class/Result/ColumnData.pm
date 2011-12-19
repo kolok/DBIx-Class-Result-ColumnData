@@ -72,7 +72,14 @@ sub get_column_data
     my ($obj, $options) = @_;
     my $rh_data;
     my $class = ref $obj;
-    my @columns = $class->columns;
+    my @columns;
+    if (defined $options->{columns} && ref $options->{columns} eq 'ARRAY' ){
+        @columns = @{$options->{columns}};
+    }
+    else {
+        @columns = $class->columns;
+    }
+
     foreach my $key (@columns)
     {
         unless ($options->{with_all_fields})
