@@ -1,6 +1,6 @@
 Revision history for DBIx-Class-Result-ColumnData
 
-0.14    2012-02-27, Nicolas Oudard
+0.15    2012-02-27, Nicolas Oudard
         manage column list in get_column_data as options (Fred)
 
 0.13    2011-10-25, Nicolas Oudard
