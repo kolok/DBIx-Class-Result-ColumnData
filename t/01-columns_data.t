@@ -9,7 +9,7 @@ use t::app::Main;
 use DateTime;
 use Data::Dumper;
 
-plan tests => 9;
+plan tests => 10;
 
 my $schema = t::app::Main->connect('dbi:SQLite:t/example.db');
 $schema->deploy({ add_drop_table => 1 });
