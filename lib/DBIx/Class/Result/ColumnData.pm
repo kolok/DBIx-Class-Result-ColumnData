@@ -95,7 +95,7 @@ sub get_column_data
             $rh_data->{$key} = $obj->get_column($key);
         }
     }
-    if ($obj->isa('DBIx::Class::Result::VirtualColumns'))
+    if ($obj->isa('DBIx::Class::VirtualColumns'))
     {
         #TODO : tests
         while (my ($virtual_column, $virtual_column_info) = each %{$class->_virtual_columns} )
