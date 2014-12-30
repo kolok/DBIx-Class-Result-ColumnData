@@ -1,5 +1,10 @@
 Revision history for DBIx-Class-Result-ColumnData
 
+0.16    2014-12-30, Nicolas Oudard
+        integration of pull request G-Demurger/handle_virtual_columns, 
+          get_column_data function is now able to return virtual column
+          declared with the module DBIx::Class::VirtualColumns
+
 0.15    2012-02-27, Nicolas Oudard
         manage column list in get_column_data as options (Fred)
 
