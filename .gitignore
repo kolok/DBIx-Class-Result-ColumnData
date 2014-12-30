@@ -5,6 +5,7 @@ Makefile
 blib/
 pm_to_blib
 Build
-MYMETA.yml
+MYMETA.*
+META.*
 _build/
 DBIx-Class-Result-ColumnData-*
