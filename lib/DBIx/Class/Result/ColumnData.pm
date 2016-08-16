@@ -73,8 +73,10 @@ sub get_column_data
     my $rh_data;
     my $class = ref $obj;
     my @columns;
+    my $filter_columns = 0;
     if (defined $options->{columns} && ref $options->{columns} eq 'ARRAY' ){
         @columns = @{$options->{columns}};
+        $filter_columns = 1;
     }
     else {
         @columns = $class->columns;
@@ -100,11 +102,13 @@ sub get_column_data
         #TODO : tests
         while (my ($virtual_column, $virtual_column_info) = each %{$class->_virtual_columns} )
         {
-            if ( ref $virtual_column_info->{set_virtual_column} eq 'CODE')
-            {
-                $virtual_column_info->{set_virtual_column}->($obj);
+            if ( !$filter_columns or $virtual_column ~~ @{$options->{columns}} ) {
+                if ( ref $virtual_column_info->{set_virtual_column} eq 'CODE')
+                {
+                    $virtual_column_info->{set_virtual_column}->($obj);
+                }
+                $rh_data->{$virtual_column} = $obj->$virtual_column;
             }
-            $rh_data->{$virtual_column} = $obj->$virtual_column;
         }
     }
 
